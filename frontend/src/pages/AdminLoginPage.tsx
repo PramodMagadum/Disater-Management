@@ -3,14 +3,20 @@ import CreateContentBox from '../content-box/CreateContentBox';
 import ReadContentBox from '../content-box/ReadContentBox';
 import UpdateContentBox from '../content-box/UpdateContentBox';
 import { DisasterEvent } from '../entities/DisasterEvent';
-import './IncidentReportingPage.css';
+import './AdminLoginPage.css';
+import { FaUserLock } from 'react-icons/fa';
 
-const IncidentReportingPage: React.FC = () => {
+
+const AdminLoginPage: React.FC = () => {
+
     // Move state variables and functions from App.tsx here
     const [disasterEvents, setDisasterEvents] = useState<DisasterEvent[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<DisasterEvent | null>(null);
     const [editing, setEditing] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [showLogin, setShowLogin] = useState(true);
+    const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     useEffect(() => {
         fetchDisasterEvents();
@@ -102,37 +108,77 @@ const IncidentReportingPage: React.FC = () => {
         setErrorMessage('An error occurred while communicating with the server.');
     };
 
+    const handleLogin = (event: React.FormEvent) => {
+        event.preventDefault();
+        if (password === '1234') { // Replace with your actual password
+            setShowLogin(false);
+            setPasswordError('');
+            fetchDisasterEvents();
+        } else {
+            setPasswordError('Incorrect password');
+        }
+    };
 
-    return (
-        <div className="incident-reporting-page">
-            <section className="report-form-section"> {/* New section for reporting form */}
-                <h2 className="page-title">Report a Disaster Event</h2>
-                {errorMessage && <div className="error-message">{errorMessage}</div>}
-                {editing ? (
-                    <UpdateContentBox event={selectedEvent!} onSubmit={handleUpdateSubmit} />
-                ) : (
-                    <CreateContentBox onSubmit={handleCreateSubmit} />
-                )}
+
+return (
+    <div className="incident-reporting-page">
+        {showLogin ? (
+            <section className="login-section">
+                <div className="login-container"> {/* Added container for styling */}
+                    <FaUserLock className="login-icon" /> {/* Login icon */}
+                    <h2>Admin Login</h2>
+                    <form onSubmit={handleLogin}>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                placeholder="Admin Name"
+                                className="form-control"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Enter password"
+                                className="form-control"
+                            />
+                        </div>
+                        <button type="submit" className="btn-primary">Login</button>
+                        {passwordError && <p className="error-message">{passwordError}</p>}
+                    </form>
+                </div>
             </section>
+        ) : (
+            <section className="event-list-section">
+                <h2 className="page-title">Reported Disaster Events</h2>
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
+                <div className="event-list-container">  {/* Added container for list styling */}
+                    <ul className="event-list">
+                        {disasterEvents.map(event => (
+                            <li key={event.id} className="event-item">
+                                {editing && selectedEvent?.id === event.id ? (
+                                    <UpdateContentBox
+                                        event={selectedEvent!}
+                                        onSubmit={handleUpdateSubmit}
 
-            {/*/!* List of Reported Events (Separate Section) *!/*/}
-            {/*<section className="event-list-section"> /!* New section for the list *!/*/}
-            {/*    <h2 className="page-title">Reported Disaster Events</h2>*/}
-            {/*    <ul className="event-list">*/}
-            {/*        {disasterEvents.map(event => (*/}
-            {/*            <li key={event.id} className="event-item">*/}
-            {/*                <ReadContentBox*/}
-            {/*                    event={event}*/}
-            {/*                    onEdit={() => handleEditClick(event)}*/}
-            {/*                    onDelete={() => handleDeleteClick(event.id)}*/}
-            {/*                />*/}
-            {/*            </li>*/}
-            {/*        ))}*/}
-            {/*    </ul>*/}
-            {/*</section>*/}
-        </div>
-    );
-};
+                                    />
+                                ) : (
+                                    <ReadContentBox
+                                        event={event}
+                                        onEdit={() => handleEditClick(event)}
+                                        onDelete={() => handleDeleteClick(event.id)}
+                                    />
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </section>
+        )}
+    </div>
+);
+}
+;
 
-export default IncidentReportingPage;
-
+export default AdminLoginPage;

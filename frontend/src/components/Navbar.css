@@ -1,45 +1,84 @@
 /* Navbar.css */
 .navbar {
-    background-color: #007bff; /* Primary color for the navbar */
+    background-color: #007bff; /* Primary color (e.g., blue for trust) */
     color: white;
-    padding: 15px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    width: 100%; /* Make it full width */
+    padding: 1rem 0; /* Consistent padding */
+    position: fixed; /* Keep navbar at top even when scrolling */
+    top: 0px;
+    width: 100%; /* Full width */
+    z-index: 100; /* Ensure it's above other content */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .container {
-    max-width: 960px;
-    margin: 0 auto;
     display: flex; /* Use flexbox for easy alignment */
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-between; /* Space logo and links apart */
+    align-items: center; /* Vertically align items */
+    max-width: 1200px; /* Limit container width */
+    margin: 0 auto; /* Center the container */
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 1.2rem; /* Make logo slightly larger */
     font-weight: bold;
-    color: white;
     text-decoration: none;
+    color: white;
 }
 
 .nav-links {
-    list-style: none;
-    margin: 0;
+    list-style: none; /* Remove default list styling */
     padding: 0;
-    display: flex; /* Make the links display horizontally */
+    margin: 0;
+    display: flex; /* Arrange links horizontally */
 }
 
 .nav-links li {
-    margin: 0 15px; /* Add margin between links */
+    margin-left: 2rem; /* Space links apart */
 }
 
 .nav-links a {
     color: white;
     text-decoration: none;
-    font-weight: bold;
-    transition: color 0.2s ease;
+    transition: color 0.3s ease; /* Smooth color transition on hover */
 }
 
-.nav-links a:hover {
-    color: #f0f0f0;
+.nav-links a:hover,
+.nav-links .active {
+    color: #f8f9fa; /* Lighter color on hover/active */
+}
+
+/* Mobile-First Responsive Design (Add these below) */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Hide links on smaller screens initially */
+        flex-direction: column; /* Stack links vertically when visible */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #007bff;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        margin: 1rem 0;
+    }
+
+    /* Add a hamburger menu button (not styled here) */
+    .menu-toggle {
+        /* Style your hamburger menu button here */
+    }
+}
+/* ... (other styles) ... */
+
+.admin-link {
+    margin-left: auto; /* Push the Admin Login link to the right */
+    /* Add other styles as needed (e.g., background color, border) */
+}
+
+.admin-link a {
+    /* Style the link text (e.g., different color, font weight) */
 }

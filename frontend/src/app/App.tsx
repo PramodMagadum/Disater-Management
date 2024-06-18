@@ -6,6 +6,7 @@ import IncidentReportingPage from "../pages/IncidentReportingPage";
 import CollaborationPage from "../pages/CollaborationPage";
 import CommunicationCenterPage from "../pages/CommunicationCenterPage";
 import AboutPage from "../pages/AboutPage";
+import AdminLoginPage from "../pages/AdminLoginPage";
 import Navbar from "../components/Navbar"; // Import DisasterEvent from here
 import { Link } from 'react-router-dom';
 import UpdateContentBox from "../content-box/UpdateContentBox"; //Import UpdateContentBox
@@ -107,6 +108,7 @@ const App: React.FC = () => {
                     <Route path="/collaborate" element={<CollaborationPage />} />
                     <Route path="/contact" element={<CommunicationCenterPage />} />
                     <Route path="/about-us" element={<AboutPage />} />
+                    <Route path="/admin-login" element={<AdminLoginPage />} />
                     <Route path="*" element={<Navigate to="/" />} /> {/* Redirect for unknown paths */}
                 </Routes>
             </main>
